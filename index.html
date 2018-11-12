@@ -15,8 +15,6 @@ xhr.onload=function(){
   var str='';
   var submit=document.querySelector('.submit');
   var sn=document.querySelector('.sn');
-  var type=0;
-  var type2=0;
   var total={};
   var totalst={};
   var area=document.querySelector('.area');
@@ -25,7 +23,6 @@ xhr.onload=function(){
   for(var i=0;i<data.length;i++){
     var content=data[i].ZipName_;
     if(total[content]==undefined){
-      type+=1;
       total[content]=1;
     }else{
       total[content]+=1;
@@ -41,7 +38,6 @@ xhr.onload=function(){
   for(var i=0;i<data.length;i++){
     var content=data[i].InformDesc_;
     if(totalst[content]==undefined){
-      type2+=1;
       totalst[content]=1;
     }else{
       totalst[content]+=1;
