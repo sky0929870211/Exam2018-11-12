@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        var xhr=new XMLHttpRequest();
+xhr.open('get','https://work1999.kcg.gov.tw/open1999/ServiceRequestsQuery.asmx/ServiceRequestsQuery',true);
+xhr.send();
+console.log(xhr.responseText);
+xhr.onload=function(){
+  var data=JSON.parse(xhr.responseText);
+  var str='';
+  var submit=document.querySelector('.submit');
+  var sn=document.querySelector('.sn');
+  var type=0;
+  var type2=0;
+  var total={};
+  var totalst={};
+  var area=document.querySelector('.area');
+  var status=document.querySelector('.status');
+  var sum=document.querySelector('.sum');
+  for(var i=0;i<data.length;i++){
+    var content=data[i].ZipName_;
+    if(total[content]==undefined){
+      type+=1;
+      total[content]=1;
+    }else{
+      total[content]+=1;
+    };
+  }
+  
+  var str2='';
+  for(var all in total){
+    str2+="<option>"+all+"</option>";
+  }
+  area.innerHTML=str2;
+  
+  for(var i=0;i<data.length;i++){
+    var content=data[i].InformDesc_;
+    if(totalst[content]==undefined){
+      type2+=1;
+      totalst[content]=1;
+    }else{
+      totalst[content]+=1;
+    };
+  }
+  
+  var str3='';
+  for(var all in totalst){
+    str3+="<option>"+all+"</option>";
+  }
+  status.innerHTML=str3;
+  
+  
+ 
+  
+  submit.addEventListener('click',function(e){
+    var _select=area.value;
+    var _status=status.value;
+    var str3="";
+    var count=0;
+    for(var j=0;j<data.length;j++){
+        if(data[j].ZipName_==_select&&data[j].InformDesc_==_status){
+          count+=1;
+          str3+="<li>"+'地點:'+data[j].address_+"</li>"+'報案狀況:'+data[j].BeforeDesc_;
+        }
+    }
+    sum.innerHTML='全部 '+_status+' 有'+count+'處';
+    sn.innerHTML=str3;
+  })
+}
+    </script>
+</head>
+<body>
+        <select name="" id="" class="area">
+        </select>
+        <select name="" id="" class="status">
+        </select>
+        <input type="submit" class="submit" value="搜尋">
+        <h2 class="sum"></h2>
+        <ul class="sn"></ul>
+              
+</body>
+</html>
